@@ -25,6 +25,7 @@ import logging
 import pkg_resources
 import re
 import yaml
+import pdb
 
 from astropy.io import ascii as asc
 import numpy as np
@@ -505,6 +506,11 @@ def full_paths(params, module_path, crds_dictionary, offline=False):
             if key2 not in params[key1].keys():
                 if key2 in CRDS_FILE_TYPES.keys():
                     logger.info('{}:{} field not present in input. Setting equal to "crds"'.format(key1, key2))
+                    params[key1][key2] = 'crds'
+            try:
+                result1t = params[key1][key2].lower() not in ['none']
+            except AttributeError:
+                if params[key1][key2] is None:
                     params[key1][key2] = 'crds'
 
             if params[key1][key2].lower() not in ['none', 'config', 'crds']:
